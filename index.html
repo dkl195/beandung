@@ -475,10 +475,13 @@
 
 <!-- Music button -->
 <button id="music-btn" title="Nhạc nền" onclick="toggleMusic()">🎵</button>
-<audio id="bg-music" loop>
-  <!-- sử dụng nguồn nhạc public domain -->
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
+
+<!-- YouTube iframe ẩn để phát nhạc nền -->
+<iframe id="yt-player"
+  src="https://www.youtube.com/embed/PzS3szHrhQY?autoplay=0&controls=0&loop=1&playlist=PzS3szHrhQY&enablejsapi=1"
+  allow="autoplay"
+  style="position:fixed;width:0;height:0;border:0;opacity:0;pointer-events:none;"
+></iframe>
 
 <!-- ===== HERO ===== -->
 <section id="hero">
@@ -750,13 +753,13 @@
   /* ===== MUSIC ===== */
   let musicOn = false;
   function toggleMusic() {
-    const audio = document.getElementById('bg-music');
-    const btn   = document.getElementById('music-btn');
+    const iframe = document.getElementById('yt-player');
+    const btn    = document.getElementById('music-btn');
     if (musicOn) {
-      audio.pause();
+      iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
       btn.textContent = '🎵';
     } else {
-      audio.play().catch(() => {});
+      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
       btn.textContent = '🔇';
     }
     musicOn = !musicOn;
