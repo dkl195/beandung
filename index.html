@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Chị ♡</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Nunito:wght@300;400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>
+    /* ========== RESET & BASE ========== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --pink-light: #fce4ec;
+      --pink-mid:   #f48fb1;
+      --pink-dark:  #e91e63;
+      --rose:       #c2185b;
+      --cream:      #fff8f0;
+      --blush:      #ffd6e0;
+      --text-dark:  #3d1a24;
+      --text-mid:   #7b3f5e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ========== PARTICLES CANVAS ========== */
+    #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+
+    /* ========== POPUP OVERLAY ========== */
+    #popup-overlay {
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(252,228,236,.92);
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .popup-box {
+      background: #fff;
+      border: 3px solid var(--pink-mid);
+      border-radius: 20px;
+      padding: 40px 50px;
+      text-align: center;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 8px 40px rgba(233,30,99,.18);
+      animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(.6); opacity: 0; }
+      to   { transform: scale(1);  opacity: 1; }
+    }
+
+    .popup-box .pixel-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 11px;
+      color: var(--rose);
+      margin-bottom: 8px;
+      line-height: 1.8;
+    }
+
+    .popup-box p {
+      color: var(--text-mid);
+      font-size: 14px;
+      margin: 14px 0 24px;
+      line-height: 1.7;
+    }
+
+    .btn-enter {
+      background: linear-gradient(135deg, var(--pink-dark), var(--rose));
+      color: #fff;
+      border: none;
+      padding: 12px 36px;
+      border-radius: 50px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(233,30,99,.4);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-enter:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(233,30,99,.5); }
+
+    /* ========== HERO ========== */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(160deg, #fce4ec 0%, #ffd6e0 40%, #ffecf2 100%);
+      overflow: hidden;
+    }
+
+    .hero-deco {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: .35;
+    }
+    .hero-deco.d1 { width: 420px; height: 420px; background: #f48fb1; top: -100px; left: -120px; }
+    .hero-deco.d2 { width: 320px; height: 320px; background: #fce4ec; bottom: -60px; right: -80px; }
+    .hero-deco.d3 { width: 200px; height: 200px; background: #e91e63; top: 40%; left: 60%; }
+
+    .cake-emoji {
+      font-size: 110px;
+      display: block;
+      animation: float 3.6s ease-in-out infinite;
+      filter: drop-shadow(0 12px 24px rgba(233,30,99,.25));
+      margin-bottom: 24px;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(-2deg); }
+      50%      { transform: translateY(-18px) rotate(2deg); }
+    }
+
+    .hero h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(3rem, 9vw, 6.5rem);
+      color: var(--rose);
+      text-shadow: 2px 4px 0 rgba(233,30,99,.18);
+      line-height: 1.1;
+      animation: fadeDown .9s ease both;
+    }
+
+    .hero .subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(8px, 2vw, 12px);
+      color: var(--pink-dark);
+      margin-top: 14px;
+      letter-spacing: 2px;
+      animation: fadeDown 1.1s .2s ease both;
+    }
+
+    .hero .tagline {
+      margin-top: 20px;
+      font-size: 16px;
+      color: var(--text-mid);
+      max-width: 500px;
+      line-height: 1.8;
+      animation: fadeDown 1.1s .4s ease both;
+    }
+
+    .scroll-hint {
+      margin-top: 40px;
+      font-size: 22px;
+      animation: bounce 2s infinite;
+      color: var(--pink-dark);
+    }
+    @keyframes bounce { 0%,100%{transform:translateY(0)}50%{transform:translateY(8px)} }
+    @keyframes fadeDown {
+      from { opacity:0; transform:translateY(-28px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* floating petals */
+    .petal {
+      position: absolute;
+      font-size: 22px;
+      animation: petalFall linear infinite;
+      opacity: .7;
+      pointer-events: none;
+    }
+    @keyframes petalFall {
+      0%   { transform: translateY(-60px) rotate(0deg); opacity:.8; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity:0; }
+    }
+
+    /* ========== SECTION BASE ========== */
+    section { position: relative; z-index: 1; }
+
+    .section-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--pink-mid);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      color: var(--rose);
+    }
+
+    /* ========== GIFTS SECTION ========== */
+    #gifts {
+      padding: 90px 20px;
+      background: #fff;
+      text-align: center;
+    }
+
+    .gifts-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .gift-card {
+      background: var(--blush);
+      border-radius: 24px;
+      padding: 36px 30px;
+      width: 220px;
+      cursor: pointer;
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+      box-shadow: 0 4px 20px rgba(244,143,177,.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .gift-card::before {
+      content:'';
+      position:absolute; inset:0;
+      background: linear-gradient(135deg, rgba(255,255,255,.4), transparent);
+      border-radius: 24px;
+    }
+    .gift-card:hover { transform: translateY(-10px) scale(1.04); box-shadow: 0 16px 40px rgba(233,30,99,.22); }
+
+    .gift-card .icon { font-size: 56px; display: block; margin-bottom: 14px; }
+    .gift-card h3 { font-family: 'Dancing Script', cursive; font-size: 1.4rem; color: var(--rose); }
+    .gift-card p  { font-size: 13px; color: var(--text-mid); margin-top: 6px; line-height: 1.6; }
+
+    /* revealed message */
+    .gift-card .reveal {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #e91e63, #c2185b);
+      border-radius: 24px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 13px; padding: 20px;
+      text-align: center; line-height: 1.7;
+      opacity: 0; transform: scale(.85);
+      transition: opacity .4s, transform .4s;
+      pointer-events: none;
+    }
+    .gift-card.opened .reveal { opacity: 1; transform: scale(1); pointer-events: auto; }
+    .gift-card.opened > *:not(.reveal) { opacity: 0; }
+
+    /* ========== POLAROID / MEMORIES ========== */
+    #memories {
+      padding: 90px 20px;
+      background: linear-gradient(160deg, #fce4ec 0%, #fff 100%);
+      text-align: center;
+    }
+
+    .polaroid-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .polaroid {
+      background: #fff;
+      padding: 16px 16px 50px;
+      border-radius: 4px;
+      box-shadow: 0 6px 28px rgba(0,0,0,.12);
+      width: 220px;
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+      position: relative;
+    }
+    .polaroid:nth-child(odd)  { transform: rotate(-3deg); }
+    .polaroid:nth-child(even) { transform: rotate(2.5deg); }
+    .polaroid:hover { transform: rotate(0deg) scale(1.07) !important; z-index: 10; }
+
+    .polaroid .photo {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 2px;
+      overflow: hidden;
+      background: var(--blush);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 64px;
+    }
+    .polaroid .photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .polaroid .caption {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1rem;
+      color: var(--text-mid);
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    /* ribbon deco on polaroid */
+    .polaroid .ribbon {
+      position: absolute;
+      top: -14px; right: -10px;
+      font-size: 36px;
+      animation: swing 3s ease-in-out infinite;
+      transform-origin: top right;
+    }
+    @keyframes swing { 0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)} }
+
+    /* ========== LETTER ========== */
+    #letter {
+      padding: 90px 20px;
+      background: #fff;
+      display: flex; flex-direction: column;
+      align-items: center;
+    }
+
+    .letter-wrap {
+      max-width: 680px;
+      width: 100%;
+      background: #fffdf8;
+      border: 2px solid #f9d0dc;
+      border-radius: 20px;
+      padding: 50px 54px;
+      position: relative;
+      box-shadow: 0 8px 40px rgba(233,30,99,.1);
+      margin-top: 40px;
+    }
+
+    .letter-wrap::before {
+      content: '♡';
+      position: absolute;
+      top: -22px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 36px;
+      color: var(--rose);
+      background: #fff;
+      padding: 0 10px;
+    }
+
+    .letter-wrap p {
+      font-size: 15.5px;
+      line-height: 2;
+      color: var(--text-dark);
+      font-weight: 300;
+    }
+
+    .letter-wrap p + p { margin-top: 18px; }
+
+    .letter-wrap .sign {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.8rem;
+      color: var(--rose);
+      text-align: right;
+      margin-top: 28px;
+    }
+
+    .stamp {
+      position: absolute;
+      top: 20px; right: 24px;
+      width: 60px; height: 60px;
+      border: 3px solid var(--pink-mid);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      transform: rotate(8deg);
+    }
+
+
+
+    /* ========== CONFETTI BUTTON ========== */
+    #finale {
+      padding: 100px 20px;
+      text-align: center;
+      background: #fff;
+    }
+
+    .finale-cake { font-size: 90px; animation: float 3s ease-in-out infinite; }
+
+    .btn-confetti {
+      margin-top: 36px;
+      background: linear-gradient(135deg, #e91e63, #c2185b);
+      color: #fff;
+      border: none;
+      padding: 16px 48px;
+      border-radius: 50px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(233,30,99,.4);
+      transition: transform .2s, box-shadow .2s;
+      display: inline-block;
+    }
+    .btn-confetti:hover { transform: scale(1.06); box-shadow: 0 10px 32px rgba(233,30,99,.5); }
+
+    .finale-msg {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--rose);
+      margin-top: 28px;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      background: var(--rose);
+      color: rgba(255,255,255,.85);
+      text-align: center;
+      padding: 28px 20px;
+      font-size: 13px;
+    }
+    footer span { font-family: 'Dancing Script', cursive; font-size: 1.1rem; color: #fff; }
+
+    /* ========== CONFETTI PARTICLES ========== */
+    .confetti-piece {
+      position: fixed;
+      width: 10px; height: 10px;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 9999;
+      animation: confettiFall linear forwards;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(-10px) rotate(0deg); opacity:1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity:0; }
+    }
+
+    /* ========== SCROLL REVEAL ========== */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== MUSIC BUTTON ========== */
+    #music-btn {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      z-index: 100;
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, var(--pink-dark), var(--rose));
+      border-radius: 50%;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(233,30,99,.4);
+      transition: transform .2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #music-btn:hover { transform: scale(1.1); }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .letter-wrap { padding: 36px 24px; }
+      .polaroid { width: 160px; }
+      .gift-card { width: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Particle canvas -->
+<canvas id="particles"></canvas>
+
+<!-- ===== POPUP ===== -->
+<div id="popup-overlay">
+  <div class="popup-box">
+    <div style="font-size:52px;margin-bottom:12px">🎀</div>
+    <div class="pixel-title">You have a<br>special message!</div>
+    <p>Có một điều bí mật đang chờ chị<br>mở ra nhé 🌸</p>
+    <button class="btn-enter" onclick="closePopup()">Open ♡</button>
+  </div>
+</div>
+
+<!-- Music button -->
+<button id="music-btn" title="Nhạc nền" onclick="toggleMusic()">🎵</button>
+<audio id="bg-music" loop>
+  <!-- sử dụng nguồn nhạc public domain -->
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-deco d1"></div>
+  <div class="hero-deco d2"></div>
+  <div class="hero-deco d3"></div>
+
+  <!-- floating petals injected by JS -->
+
+  <span class="cake-emoji">🎂</span>
+
+  <div class="hero">
+    <h1>Happy Birthday</h1>
+    <p class="subtitle">✦ Chị yêu ✦</p>
+    <p class="tagline">Chúc chị một ngày thật đặc biệt, tràn đầy niềm vui và những điều ngọt ngào nhất 🌸</p>
+  </div>
+
+  <div class="scroll-hint">↓</div>
+</section>
+
+<!-- ===== GIFTS ===== -->
+<section id="gifts">
+  <div class="reveal-on-scroll">
+    <p class="section-label">✦ my gifts for you ✦</p>
+    <h2 class="section-title">Những món quà nhỏ 🎁</h2>
+    <p style="color:var(--text-mid);margin-top:12px;font-size:14px">Nhấn vào từng ô để mở quà nhé chị!</p>
+  </div>
+
+  <div class="gifts-grid">
+    <div class="gift-card reveal-on-scroll" onclick="openGift(this)">
+      <span class="icon">📸</span>
+      <h3>Kỷ niệm</h3>
+      <p>Một bức ảnh đáng nhớ</p>
+      <div class="reveal">Những khoảnh khắc bên nhau là điều em trân trọng nhất 🌸</div>
+    </div>
+    <div class="gift-card reveal-on-scroll" onclick="openGift(this)">
+      <span class="icon">💌</span>
+      <h3>Lời chúc</h3>
+      <p>Từ trái tim em</p>
+      <div class="reveal">Chị luôn là người em ngưỡng mộ nhất. Chúc chị mãi hạnh phúc! ♡</div>
+    </div>
+    <div class="gift-card reveal-on-scroll" onclick="openGift(this)">
+      <span class="icon">🌹</span>
+      <h3>Hoa hồng</h3>
+      <p>Tươi thắm như chị</p>
+      <div class="reveal">Gửi chị một bó hoa hồng thật đẹp, vì chị xứng đáng được nhận tất cả những điều tốt nhất 🌹</div>
+    </div>
+    <div class="gift-card reveal-on-scroll" onclick="openGift(this)">
+      <span class="icon">⭐</span>
+      <h3>Điều ước</h3>
+      <p>Thổi nến đi chị!</p>
+      <div class="reveal">Em ước chị luôn khỏe mạnh, vui vẻ và mọi điều ước của chị đều thành hiện thực! 🌟</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MEMORIES / POLAROID ===== -->
+<section id="memories">
+  <div class="reveal-on-scroll">
+    <p class="section-label">✦ our memories ✦</p>
+    <h2 class="section-title">Kỷ niệm đẹp 📷</h2>
+  </div>
+
+  <div class="polaroid-grid">
+    <div class="polaroid reveal-on-scroll">
+      <div class="ribbon">🎀</div>
+      <div class="photo">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=80" alt="flowers" onerror="this.style.display='none';this.parentElement.innerHTML='🌸'" />
+      </div>
+      <div class="caption">Những bông hoa dành cho chị 🌸</div>
+    </div>
+
+    <div class="polaroid reveal-on-scroll">
+      <div class="photo">
+        <img src="https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=300&q=80" alt="cake" onerror="this.style.display='none';this.parentElement.innerHTML='🎂'" />
+      </div>
+      <div class="caption">Bánh kem ngọt ngào 🎂</div>
+    </div>
+
+    <div class="polaroid reveal-on-scroll">
+      <div class="ribbon">✨</div>
+      <div class="photo">
+        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=300&q=80" alt="birthday" onerror="this.style.display='none';this.parentElement.innerHTML='🎉'" />
+      </div>
+      <div class="caption">Mừng sinh nhật chị! 🎉</div>
+    </div>
+
+    <div class="polaroid reveal-on-scroll">
+      <div class="photo">
+        <img src="https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=300&q=80" alt="gift" onerror="this.style.display='none';this.parentElement.innerHTML='🎁'" />
+      </div>
+      <div class="caption">Quà tặng yêu thương 🎁</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LETTER ===== -->
+<section id="letter">
+  <div class="reveal-on-scroll" style="text-align:center">
+    <p class="section-label">✦ a letter for you ✦</p>
+    <h2 class="section-title">Thư gửi chị yêu 💌</h2>
+  </div>
+
+  <div class="letter-wrap reveal-on-scroll">
+    <div class="stamp">💌</div>
+    <p>Chị ơi,</p>
+    <p>
+      Hôm nay là một ngày thật đặc biệt — ngày mà chị đã chào đời và mang đến cho cuộc đời này
+      thật nhiều điều tươi đẹp. Em biết rằng lời nói đôi khi không đủ để nói lên hết những gì
+      em muốn gửi đến chị, nhưng em vẫn muốn thử.
+    </p>
+    <p>
+      Chị là người luôn ở đó, dù em cần một lời khuyên, một cái ôm hay chỉ đơn giản là ai đó
+      để nói chuyện. Cảm ơn chị vì tất cả những điều đó — những điều nhỏ bé mà lại có ý nghĩa
+      lớn lao với em vô cùng.
+    </p>
+    <p>
+      Em chúc chị luôn rạng rỡ như bông hoa hồng buổi sáng, luôn có thật nhiều niềm vui,
+      sức khỏe và những điều tuyệt vời nhất trong cuộc sống. Chị xứng đáng được nhận
+      mọi điều tốt đẹp nhất! 🌹
+    </p>
+    <p>
+      Sinh nhật vui vẻ chị nhé! 🎂✨
+    </p>
+    <div class="sign">Với tình yêu, Em ♡</div>
+  </div>
+</section>
+
+
+<!-- ===== FINALE ===== -->
+<section id="finale">
+  <div class="reveal-on-scroll">
+    <div class="finale-cake">🎂</div>
+    <h2 class="section-title" style="margin-top:20px">Thổi nến đi chị!</h2>
+    <p style="color:var(--text-mid);margin-top:14px;font-size:15px">Nhấn nút bên dưới để bùng nổ hạnh phúc 🎉</p>
+    <button class="btn-confetti" onclick="launchConfetti()">🎉 Chúc Mừng Sinh Nhật!</button>
+    <div class="finale-msg" id="finale-msg" style="opacity:0;transition:opacity .6s"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Made with <span>♡</span> · Happy Birthday Chị Yêu 🎀</p>
+</footer>
+
+<script>
+  /* ===== POPUP ===== */
+  function closePopup() {
+    const el = document.getElementById('popup-overlay');
+    el.style.transition = 'opacity .4s';
+    el.style.opacity = '0';
+    setTimeout(() => el.remove(), 420);
+    spawnPetals();
+  }
+
+  /* ===== PETALS ===== */
+  function spawnPetals() {
+    const petals = ['🌸','🌷','🌹','✿','❀','💮'];
+    const hero = document.getElementById('hero');
+    for (let i = 0; i < 18; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.textContent = petals[Math.floor(Math.random() * petals.length)];
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (4 + Math.random() * 6) + 's';
+      p.style.animationDelay = (Math.random() * 6) + 's';
+      p.style.fontSize = (16 + Math.random() * 16) + 'px';
+      hero.appendChild(p);
+    }
+  }
+  spawnPetals();
+
+  /* ===== GIFT OPEN ===== */
+  function openGift(card) {
+    if (card.classList.contains('opened')) {
+      card.classList.remove('opened');
+    } else {
+      card.classList.add('opened');
+    }
+  }
+
+  /* ===== SCROLL REVEAL ===== */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+  /* ===== PARTICLE CANVAS (hearts) ===== */
+  (function() {
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, hearts = [];
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function Heart(x, y) {
+      this.x = x || Math.random() * W;
+      this.y = y || Math.random() * H;
+      this.size = 6 + Math.random() * 10;
+      this.speedY = -(0.3 + Math.random() * 0.5);
+      this.alpha = 0.08 + Math.random() * 0.12;
+      this.hue = 330 + Math.random() * 30;
+    }
+
+    for (let i = 0; i < 28; i++) hearts.push(new Heart());
+
+    function drawHeart(ctx, x, y, size, alpha, hue) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = `hsl(${hue}, 80%, 65%)`;
+      ctx.translate(x, y);
+      ctx.scale(size / 20, size / 20);
+      ctx.beginPath();
+      ctx.moveTo(0, -5);
+      ctx.bezierCurveTo(5, -12, 14, -5, 0, 6);
+      ctx.bezierCurveTo(-14, -5, -5, -12, 0, -5);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function loop() {
+      ctx.clearRect(0, 0, W, H);
+      hearts.forEach(h => {
+        h.y += h.speedY;
+        if (h.y < -20) { h.y = H + 20; h.x = Math.random() * W; }
+        drawHeart(ctx, h.x, h.y, h.size, h.alpha, h.hue);
+      });
+      requestAnimationFrame(loop);
+    }
+    loop();
+  })();
+
+  /* ===== CONFETTI ===== */
+  function launchConfetti() {
+    const colors = ['#e91e63','#f48fb1','#ff80ab','#fce4ec','#c2185b','#ff4081','#ffcdd2'];
+    for (let i = 0; i < 120; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.top  = '-10px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.width  = (6 + Math.random() * 10) + 'px';
+      el.style.height = (6 + Math.random() * 10) + 'px';
+      el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      el.style.animationDuration = (1.5 + Math.random() * 2.5) + 's';
+      el.style.animationDelay = (Math.random() * .8) + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }
+
+    // emoji burst
+    const emojis = ['🎉','🎊','✨','🌸','💕','🎂','🌹'];
+    for (let i = 0; i < 20; i++) {
+      const e = document.createElement('div');
+      e.style.cssText = `position:fixed;left:${Math.random()*100}vw;top:-30px;font-size:${20+Math.random()*24}px;pointer-events:none;z-index:9999;animation:confettiFall ${1.8+Math.random()*2}s linear ${Math.random()*.6}s forwards`;
+      e.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      document.body.appendChild(e);
+      setTimeout(() => e.remove(), 4500);
+    }
+
+    const msg = document.getElementById('finale-msg');
+    msg.textContent = '🎂 Sinh nhật vui vẻ chị yêu! Chị mãi là số 1 ♡ 🎂';
+    msg.style.opacity = '1';
+  }
+
+  /* ===== MUSIC ===== */
+  let musicOn = false;
+  function toggleMusic() {
+    const audio = document.getElementById('bg-music');
+    const btn   = document.getElementById('music-btn');
+    if (musicOn) {
+      audio.pause();
+      btn.textContent = '🎵';
+    } else {
+      audio.play().catch(() => {});
+      btn.textContent = '🔇';
+    }
+    musicOn = !musicOn;
+  }
+</script>
+</body>
+</html>
